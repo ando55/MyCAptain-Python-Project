@@ -1,0 +1,53 @@
+# 1. Circle Radius and Area
+pi = 3.141592653589793238
+radius = float(input("Input the radius of the circle : "))
+area = pi * (radius ** 2)
+print(f"The area of the circle with radius {radius} is: {area}")
+
+
+# 2. File Extension Problem
+extension = {
+    ".asp": "Active Server Page",
+    ".aspx": "Active Server Page",
+    ".cer": "Internet security certificate",
+    ".cfm": "ColdFusion Markup",
+    ".cgi": "Perl script",
+    ".pl": "Perl script",
+    ".css": "Cascading Style Sheet",
+    ".htm": "HTML",
+    ".html": "HTML",
+    ".js": "JavaScript",
+    ".jsp": "Java Server Page file",
+    ".part": "Partially downloaded file",
+    ".php": "PHP",
+    ".py": "Python",
+    ".rss": "RSS",
+    ".xhtml": "XHTML",
+    ".txt": "Text",
+    ".jpeg": "JEPG image",
+    ".jpg": "JPEG image",
+    ".png": "PNG image",
+    ".gif": "GOF image",
+    ".apk": "Android",
+    ".bat": "Batch",
+    ".bin": "Binary",
+    ".exe": "Executable",
+    ".dat": "Data",
+    ".dbf": "Database file",
+    ".db": "Database file",
+    ".log": "Log file",
+    ".tar": "Linux Archive",
+    ".sh": "Bash shel script",
+    ".cpp": "C++ ",
+    ".c": "C "
+}
+
+""" code for file extension """
+
+file_name = input("Input the Filename: ").lower()
+file_ext = file_name.split(".")[-1]
+
+if f".{file_ext}" in extension.keys():
+    print(extension.get(f".{file_ext}"))
+else:
+    print("Sorry file extension not found.")
