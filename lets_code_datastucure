@@ -1,6 +1,7 @@
 # Anandhu Sekhar
 
 # 1. Circle Radius and Area
+
 pi = 3.141592653589793238
 radius = float(input("Input the radius of the circle : "))
 area = pi * (radius ** 2)
@@ -8,6 +9,7 @@ print(f"The area of the circle with radius {radius} is: {area}")
 
 
 # 2. File Extension Problem
+
 extension = {
     ".asp": "Active Server Page",
     ".aspx": "Active Server Page",
