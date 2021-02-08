@@ -1,0 +1,18 @@
+# Anandhu Sekhar
+# Let's code loops
+# Fibonacci series
+
+val = 0
+fib = []
+text = ""
+c = True
+while c:
+    if val < 2:
+        fib.append(val)
+        text += str(val) + ","
+        val += 1
+    new_val = fib[len(fib) - 2] + fib[len(fib) - 1]
+    text += str(new_val) + ","
+    fib.append(new_val)   
+
+print(f"Fibonacci numbers: {text}")
