@@ -1,0 +1,19 @@
+# program for print all positive number in a range 
+
+output1 = []
+output2 = []
+
+for i in range(2):
+    list_ = input("enter numbers by using ',' for separation: ").split(",")
+    if i == 0:
+        list1 = list_
+        for number in list1:
+            if int(number) >= 0:
+                output1.append(int(number))
+    if i == 1:
+        list2 = list_
+        for number in list2:
+            if int(number) >= 0:
+                output2.append(int(number))
+print(f"Input:list1={list1}  Output:{output1}")
+print(f"Input:list2={list2}  Output:{output2}")
