@@ -16,3 +16,5 @@ while c:
     fib.append(new_val)   
 
 print(f"Fibonacci numbers: {text}")
+
+
