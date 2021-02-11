@@ -17,3 +17,20 @@ for i in range(2):
                 output2.append(int(number))
 print(f"Input:list1={list1}  Output:{output1}")
 print(f"Input:list2={list2}  Output:{output2}")
+
+
+# ------------for 1 input only ---------------
+
+number_typed = input("enter numbers by using ',' for separation: ")
+list_typed = number_typed.split(",")
+s = " "
+output = []
+for number in list_typed:
+    if int(number) >= 0:
+        output.append(int(number))
+        
+print(f"Input:list={list_typed}  Output:{output}")
+    
+        
+
+
