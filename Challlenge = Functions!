@@ -1,0 +1,15 @@
+def most_frequent(word):
+  word_list = list(word)
+  new_dict = {letter:word_list.count(letter) for letter in word_list}
+  final = dict(sorted(new_dict.items(), key = lambda x: x[1], reverse= True))
+  output = " "
+  for item in final:
+    if final[item] < 10:
+      output += f"{item} = 0{final[item]} "
+    else:
+      output += f"{item} = {final[item]} "
+
+  return print(output)
+word = input("Please enter a string ")
+most_frequent(word)
+
