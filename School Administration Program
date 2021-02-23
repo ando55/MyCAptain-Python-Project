@@ -1,0 +1,43 @@
+#School Administration Program
+
+import csv
+
+condition = True
+student_num = 1
+try:
+    with open("num.txt", "r") as num_file:
+        number = num_file.read()
+except FileNotFoundError:
+    with open("num.txt", "w") as num_file:
+        num_file.write(f"{student_num}")
+else:
+    if int(number) > student_num:
+        student_num = int(number)
+
+def student_data(student):
+    with open("school_administration_data.csv", "a", newline="") as data_file:
+        data_entering = csv.writer(data_file)
+        if data_file.tell() == 0:
+            data_entering.writerow(["student number", "Name", "Age", "Contact Number", "Email-Id"])
+        data_entering.writerow(student)
+
+while condition:
+    student_info = input(f"enter the student information for student #{student_num} the following format (Name Age Contact_Number Email_ID) : ")
+    student_info_list = [student_num]
+    student_list = student_info.split(" ")
+    student_info_list += student_list
+    print(f"The Entered Details is -\nName:{student_list[0]}\nAge:{student_list[1]}\nContact Number:{student_list[2]}\nEmail-Id:{student_list[3]}")
+
+    choice_check = input("is entered data is correct (yes/no): ")
+    if choice_check == "yes":
+        student_num += 1
+        with open("num.txt", "w") as num_file:
+            num_file.write(f"{student_num}")
+        student_data(student_info_list)
+        condition_check = input("enter (yes/no) for do you want to enter another student information?\n").lower()
+        if condition_check == "yes":
+            continue
+        elif condition_check == "no":
+            condition = False
+    else:
+        print("re-enter the data")
