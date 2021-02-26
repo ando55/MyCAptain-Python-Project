@@ -1,0 +1,79 @@
+# Webscraping oyorooms website for hotels in chennai
+======================================================================================================================================================================================
+
+# connect.py
+
+import sqlite3
+
+
+def connect(dbname):
+    conn = sqlite3.connect(dbname)
+    conn.execute("CREATE TABLE IF NOT EXISTS OYO_HOTELS (NAME TEXT, ADDRESS TEXT, PRICE INT, AMENITIES TEXT, RATING TEXT)")
+    print("Table created Successfully")
+    conn.close()
+
+
+def insert_data_into_table(dbname, values):
+    conn = sqlite3.connect(dbname)
+    insert_sql = "INSERT INTO OYO_HOTELS (NAME, ADDRESS, PRICE, AMENITIES, RATING) VALUES (?, ?, ?, ?, ?)"
+    conn.execute(insert_sql, values)
+    conn.commit()
+    conn.close()
+
+
+def get_hotel_info(dbname):
+    conn = sqlite3.connect(dbname)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM OYO_HOTELS")
+    table_data = cur.fetchall()
+    for item in table_data:
+        print(item)
+    conn.close()
+
+
+#====================================================================================================================================================================================
+
+# main.py
+from bs4 import BeautifulSoup
+import requests
+import pandas
+import argparse
+import connect
+
+
+oyo_url = "https://www.oyorooms.com/hotels-in-chennai/?page="
+Requestheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"}
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--page_num_max", help="enter the number of pages to parse", type=int)
+parser.add_argument("--dbname", help="enter the database file name", type=str)
+args = parser.parse_args()
+# scraped_info_list = []
+connect.connect(args.dbname)
+
+for i in range(1, args.page_num_max):
+    req = requests.get(url=oyo_url + str(i), headers=Requestheaders)
+    contents = req.content
+    soup = BeautifulSoup(contents, "html.parser")
+    all_hotels = soup.find_all(name="div", class_="hotelCardListing__descriptionWrapper")
+    for hotel in all_hotels:
+        hotel_dict = {"name": hotel.find(name="h3", class_="listingHotelDescription__hotelName").text,
+                      "address": hotel.find(name="span", class_="u-line--clamp-2").text,
+                      "price": hotel.find(name="span", class_="listingPrice__finalPrice").text}
+        try:
+            hotel_dict["rating"] = hotel.find("span", {"class": "hotelRating__ratingSummary"}).text
+        except AttributeError:
+            hotel_dict["rating"] = None
+        parent_amenities_element = hotel.find(name="div", class_="amenityWrapper")
+        amenities_list = []
+        for amenity in parent_amenities_element.find_all("div", {"class": "amenityWrapper__amenity"}):
+            amenities_list.append(amenity.find("span", {"class": "d-body-sm"}).text.strip())
+        hotel_dict["amenities"] = ', '.join(amenities_list[:-1])
+        tup = tuple(hotel_dict.values())
+
+        connect.insert_data_into_table(args.dbname, tup)
+        # scraped_info_list.append(hotel_dict)
+# dataframe = pandas.DataFrame(scraped_info_list)
+# dataframe.to_csv("hotel_data.csv")
+connect.get_hotel_info(args.dbname)
